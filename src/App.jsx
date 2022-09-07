@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Company from './pages/Company';
-import NewProject from './pages/NewProject';
+import NewProject from './pages/NewProject/NewProject';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Container from './components/Container/Container';
