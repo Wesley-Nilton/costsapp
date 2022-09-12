@@ -8,7 +8,7 @@ function ProjectForm({btnText}){
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/categories', {
+        fetch('https://my-json-server.typicode.com/Wesley-Nilton/costsapp/categories', {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
