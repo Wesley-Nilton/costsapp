@@ -4,10 +4,12 @@ import Container from '../../components/Container/Container';
 import LinkButton from '../../components/LinkButton/LinkButton';
 import Message from '../../components/Message/Message';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import Loading from '../../components/Loading/Loading';
 import './Projects.css';
 
 function Projects(){
     const [projects, setProjects] = useState([]);
+    const [removeLoading, setRemoveLoading] = useState(false);
 
     const location = useLocation();
     let message = '';
@@ -17,15 +19,20 @@ function Projects(){
     }
 
     useEffect(() => {
-        fetch('https://my-json-server.typicode.com/Wesley-Nilton/costsapp/projects', {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => setProjects(data))
-        .catch(err => console.log(err))
+        setTimeout(() => {
+            fetch('https://my-json-server.typicode.com/Wesley-Nilton/costsapp/projects', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                setProjects(data);
+                setRemoveLoading(true);
+            })
+            .catch(err => console.log(err))
+        }, 300)
     }, []);
 
     return(
@@ -39,7 +46,12 @@ function Projects(){
                 {projects.length > 0 &&
                     projects.map(project => (
                         <ProjectCard id={project.id} name={project.name} budget={project.budget} category={project.category.name} key={project.id} />
-                    ))}
+                    ))
+                }
+                {!removeLoading && <Loading />}
+                {removeLoading && projects.length === 0 && (
+                    <p>Não há projetos cadastrados!</p>
+                )}
             </Container>
         </div>
     )
