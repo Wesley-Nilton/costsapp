@@ -1,0 +1,45 @@
+.project-details{
+    padding: 2em;
+}
+
+.project-details h1, .project-details h2, .project-details p{
+    margin-bottom: .5em;
+}
+
+.project-details h1{
+    color: #ffbb33;
+    padding: .4em;
+    background-color: #222;
+}
+
+.project-details span{
+    font-weight: bold;
+}
+
+.details-container, .service-form-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1.2em;
+    padding-bottom: 1.2em;
+    border-bottom: 1px solid #7a7a7a;
+}
+
+.btn{
+    color: #fff;
+    text-decoration: none;
+    max-height: 40px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    transition: .5s;
+    border: none;
+    background-color: #222;
+}
+
+.btn:hover{
+    color: #ffbb33;
+}
+
+.project-info{
+    width: 100%;
+}
