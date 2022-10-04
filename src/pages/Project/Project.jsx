@@ -1,8 +1,10 @@
 import {useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import {parse, v4 as uuidv4} from 'uuid';
 import Loading from '../../components/Loading/Loading';
 import Container from '../../components/Container/Container';
 import ProjectForm from '../../components/ProjectForm/ProjectForm';
+import ServiceForm from '../../components/ServiceForm/ServiceForm';
 import Message from '../../components/Message/Message';
 import './Project.css';
 
@@ -54,6 +56,40 @@ function Project(){
             .catch(err => console.log(err))
     }
 
+    function createService(project){
+        setMessage('');
+
+        // Last service
+        const lastService = project.services[project.services.length - 1];
+        lastService.id = uuidv4();
+
+        const lastServiceCost = lastService.cost;
+        const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost);
+
+        // Maximum value validation
+        if(newCost > parseFloat(project.budget)){
+            setMessage('Orçamento ultrapassado, verifique o valor do serviço');
+            setType('error');
+            project.services.pop();
+            return false;
+        }
+
+        // Add service cost to project total cost
+        project.cost = newCost;
+
+        // Update project
+        fetch(`https://my-json-server.typicode.com/Wesley-Nilton/costsapp/projects/${project.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(project),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
+    }
+
     function toggleProjectForm(){
         setShowProjectForm(!showProjectForm);
     }
@@ -91,7 +127,7 @@ function Project(){
                                 {!showServiceForm ? 'Adicionar serviço' : 'Fechar'}
                             </button>
                             <div className='project-info'>
-                                {showServiceForm && <div>Formulário do serviço</div>}
+                                {showServiceForm && <ServiceForm handleSubmit={createService} btnText='Adicionar Serviço' projectData={project} />}
                             </div>
                         </div>
                         <h2>Serviços</h2>
