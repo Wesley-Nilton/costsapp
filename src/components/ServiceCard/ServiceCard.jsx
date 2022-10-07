@@ -3,7 +3,8 @@ import '../ProjectCard/ProjectCard.css';
 
 function ServiceCard(id, name, cost, description, handleRemove){
     const remove = (e) => {
-
+        e.preventDefault();
+        handleRemove(id, cost)
     }
 
     return(
